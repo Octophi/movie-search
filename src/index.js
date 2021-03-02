@@ -126,10 +126,12 @@ class MovieDisplay extends React.Component {
     return (
       <div className="movie-display-tile">
         <img src={img_path} alt="Movie Poster"></img>
-        <div id="img-description">
-          <h1>{title}</h1>
-          <p>Average Score: {vote_average}</p>
-          <p>{overview}</p>
+        <div class="img-description">
+          <h1 class="movie-title">{title}</h1>
+          <p class="score-paragraph">
+            <span class="score">Average Score:</span> {vote_average}
+          </p>
+          <p class="overview">{overview}</p>
         </div>
       </div>
     );

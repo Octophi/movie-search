@@ -180,11 +180,43 @@ form {
 }
 
 .movie-display-tile {
+  position: relative;
   margin: 10px 0px;
+  width: 300px;
+  height: 450px;
 }
-
-
 
 .movie-display-tile img {
   object-fit: contain;
+}
+.movie-display-tile .img-description {
+  top: 0;
+  left: 0;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.movie-display-tile:hover img {
+  opacity: 0.1;
+}
+
+.movie-display-tile:hover .img-description {
+  visibility: visible;
+  opacity: 1;
+  margin: 25px;
+}
+
+.movie-title {
+  font-size: 2em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.score {
+  font-weight: 700;
+}
+
+.score-paragraph {
+  margin-bottom: 10px;
 }
