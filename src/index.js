@@ -5,19 +5,43 @@ import "./index.css";
 class ContentPage extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
     this.state = { searchQuery: "", searchResults: [] };
   }
-  handleChange(e) {
-    const query = e.target.value;
+  handleQueryChange(query) {
+    this.setState({ searchQuery: { query } });
+    // Should hide this API key later
+    const apiKey = "4b547eeea89c2c56ed31012705fbf0c6";
+    const language = "en-US";
+    const include_adult = false;
+    const page = 1;
+    // Also can include an option for year
 
-    this.setState({ searchQuery: { query }, searchResults: e.target.value });
+    const apiRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${query}&page=${page}&include_adult=${include_adult}`;
+
+    fetch(apiRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ searchResults: { data } });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    /* Testing Code
+    console.log("Search Query: " + query);
+    console.log("Search Results: ");
+    console.log(this.state.searchResults);
+    */
   }
   render() {
     return (
       <div>
-        <SearchBar></SearchBar>
-        <ResultsPage></ResultsPage>
+        <SearchBar onChange={this.handleQueryChange}></SearchBar>
+        <ResultsPage
+          searchQuery={this.state.searchQuery}
+          searchResults={this.state.searchResults}
+        ></ResultsPage>
       </div>
     );
   }
@@ -25,6 +49,7 @@ class ContentPage extends React.Component {
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
     this.state = { searchResults: [] };
   }
   handleChange(e) {
@@ -33,7 +58,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <form>
-        <label for="searchbar"></label>
+        <label htmlFor="searchbar"></label>
         <input
           type="text"
           id="searchbar"
@@ -46,13 +71,20 @@ class SearchBar extends React.Component {
 }
 
 class ResultsPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   // Basically we should have a list of objects after each query
   // If the ilst is empty, display something particular here
   // Else just display all the stuff from the movie display, pageifying as necessary
   render() {
     // Pass in the search results from the search bar
     const searchResults = this.props.searchResults;
-    if (searchResults.length === 0) {
+    const searchQuery = this.props.searchQuery;
+
+    if (searchQuery === "") {
+      return <p></p>;
+    } else if (searchResults.length === 0) {
       return <p>Oops, no search results found</p>;
     } else {
       return <p>Search results</p>;
