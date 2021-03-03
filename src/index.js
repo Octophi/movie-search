@@ -69,15 +69,19 @@ class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { searchResults: [] };
   }
   handleChange(e) {
     this.props.onChange(e.target.value);
   }
+  handleSubmit(e) {
+    e.preventDefault();
+  }
   render() {
     return (
       <div id="searchbar-container">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <label htmlFor="searchbar"></label>
           <input
             type="text"
