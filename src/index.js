@@ -12,7 +12,6 @@ fetch(apiConfigRequest)
   .then((response) => response.json())
   .then((data) => {
     secure_base_url = data.images.secure_base_url;
-    console.log(secure_base_url);
     size = data.images.backdrop_sizes[0];
   })
   .catch(console.log);
@@ -21,15 +20,15 @@ class ContentPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleQueryChange = this.handleQueryChange.bind(this);
-    this.state = { searchQuery: "", searchResults: [] };
+    this.state = { searchQuery: "", searchResults: [], isEmpty: true };
   }
   handleQueryChange(query) {
     this.setState({ searchQuery: { query } });
     if (query.trim() === "") {
-      setTimeout(this.setState({ searchResults: [] }), 100000);
+      setTimeout(function () {}, 500);
+      this.setState({ isEmpty: true, searchResults: [] });
       return;
     }
-    // Should hide this API key later
     const language = "en-US";
     const include_adult = false;
     const page = 1;
@@ -39,7 +38,7 @@ class ContentPage extends React.Component {
     fetch(apiSearchRequest)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ searchResults: { data } });
+        this.setState({ isEmpty: false, searchResults: { data } });
       })
       .catch((error) => {
         console.error(error);
@@ -60,6 +59,7 @@ class ContentPage extends React.Component {
         <ResultsPage
           searchQuery={this.state.searchQuery}
           searchResults={this.state.searchResults}
+          isEmpty={this.state.isEmpty}
         ></ResultsPage>
       </div>
     );
@@ -95,21 +95,19 @@ class ResultsPage extends React.Component {
   render() {
     // Pass in the search results from the search bar
     const searchResults = this.props.searchResults;
-    const searchQuery = this.props.searchQuery;
-    console.log(searchQuery);
-    if (searchQuery.length === 0) {
+    const isEmpty = this.props.isEmpty;
+    if (isEmpty) {
       return <p></p>;
     } else if (
       searchResults.length === 0 ||
       searchResults.data.total_results === 0
     ) {
-      console.log(searchQuery.length);
-      console.log(typeof searchQuery);
       return <p>Oops, no search results found</p>;
     } else {
-      console.log(searchResults);
       const movieTabs = searchResults.data.results.map(function (movieData) {
-        return <MovieDisplay data={movieData}></MovieDisplay>;
+        return (
+          <MovieDisplay data={movieData} key={movieData.id}></MovieDisplay>
+        );
       });
       return <div id="results-page">{movieTabs}</div>;
     }
@@ -119,11 +117,8 @@ class ResultsPage extends React.Component {
 class MovieDisplay extends React.Component {
   render() {
     const movieData = this.props.data;
-
     const overview = movieData.overview;
-    const release_date = movieData.release_date;
     const title = movieData.title;
-    const popularity = movieData.popularity;
     const vote_average = movieData.vote_average;
 
     let imgComponent;
