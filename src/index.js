@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import ReactPaginate from "react-paginate";
 import "./index.css";
 
 // Basic API Setup
@@ -20,8 +21,22 @@ class ContentPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleQueryChange = this.handleQueryChange.bind(this);
-    this.state = { searchQuery: "", searchResults: [], isEmpty: true };
+    //this.handlePageClick = this.handlePageClick.bind(this);
+    this.state = {
+      searchQuery: "",
+      searchResults: [],
+      isEmpty: true,
+      //paginationAttributes: { offset: 0, perPage: 20, currentPage: 0 },
+    };
   }
+
+  /*
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.perPage;
+  };
+  */
+
   handleQueryChange(query) {
     this.setState({ searchQuery: { query } });
     if (query.trim() === "") {
@@ -54,7 +69,8 @@ class ContentPage extends React.Component {
     return (
       <div>
         <Navbar></Navbar>
-        <MainText></MainText>
+        <MainHeader></MainHeader>
+        <MainDescription></MainDescription>
         <SearchBar onChange={this.handleQueryChange}></SearchBar>
         <ResultsPage
           searchQuery={this.state.searchQuery}
@@ -118,6 +134,8 @@ class ResultsPage extends React.Component {
   }
 }
 
+//class PaginationMenu extends React.Component {}
+
 class MovieDisplay extends React.Component {
   render() {
     const movieData = this.props.data;
@@ -171,7 +189,18 @@ function Navbar(props) {
   );
 }
 
-function MainText(props) {
-  return <p id="main-description">A modern movie search engine.</p>;
+function MainHeader(props) {
+  return <p id="main-header">A modern movie search engine.</p>;
 }
+
+function MainDescription(props) {
+  return (
+    <p id="main-description">
+      Ever wanted a single platform for finding movies by name? Curious how many
+      movies there are with zombie in the title? Type into the searchbar and get
+      searching.
+    </p>
+  );
+}
+
 ReactDOM.render(<ContentPage />, document.getElementById("root"));

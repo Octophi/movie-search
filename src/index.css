@@ -262,9 +262,16 @@ h1 {
   background-color: #f8c7cc !important;
 }
 
-#main-description {
-  margin: 5% 15%;
+#main-header {
+  margin: 5% 15% 2% 15%;
   font-size: 3em;
+  font-weight: 100;
+  text-align: center;
+}
+
+#main-description {
+  margin: 1% 20%;
+  font-size: 1em;
   font-weight: 100;
   text-align: center;
 }
