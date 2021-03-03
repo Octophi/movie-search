@@ -244,15 +244,15 @@ function MovieDescription(props) {
   return (
     <div className="img-description">
       <h1 className="movie-title">{props.title}</h1>
-      <p className="score-paragraph">
+      <p className="movie-attribute">
         <span className="bold">Average Score:</span> {props.score}
       </p>
       {props.genres.length > 0 && (
-        <p className="genre">
+        <p className="movie-attribute">
           <span className="bold">Genres:</span> {props.genres.join(", ")}
         </p>
       )}
-      <p className="overview">{props.overview}</p>
+      <p className="movie-attribute">{props.overview}</p>
     </div>
   );
 }
