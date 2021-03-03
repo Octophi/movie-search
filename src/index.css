@@ -188,6 +188,7 @@ form {
 
 .movie-display-tile img {
   object-fit: contain;
+  border-radius: 15px;
 }
 .movie-display-tile .img-description {
   top: 0;
@@ -239,9 +240,28 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border-radius: 15px;
 }
 
 .filler h1 {
   margin: 0px 10px;
+  text-align: center;
+}
+
+b {
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2em;
+}
+#main-nav {
+  background-color: #7fbeeb !important;
+}
+
+#main-description {
+  margin: 5% 15%;
+  font-size: 3em;
+  font-weight: 100;
   text-align: center;
 }

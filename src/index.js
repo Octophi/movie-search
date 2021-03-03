@@ -54,6 +54,8 @@ class ContentPage extends React.Component {
   render() {
     return (
       <div>
+        <Navbar></Navbar>
+        <MainText></MainText>
         <SearchBar onChange={this.handleQueryChange}></SearchBar>
         <ResultsPage
           searchQuery={this.state.searchQuery}
@@ -96,7 +98,7 @@ class ResultsPage extends React.Component {
     const searchQuery = this.props.searchQuery;
     console.log(searchQuery);
     if (searchQuery.length === 0) {
-      return <p>Hi</p>;
+      return <p></p>;
     } else if (
       searchResults.length === 0 ||
       searchResults.data.total_results === 0
@@ -160,4 +162,17 @@ function MovieDescription(props) {
   );
 }
 
+function Navbar(props) {
+  return (
+    <nav className="navbar navbar-light bg-light" id="main-nav">
+      <span className="navbar-brand mb-0 h1">
+        <b>flick</b>findr
+      </span>
+    </nav>
+  );
+}
+
+function MainText(props) {
+  return <p id="main-description">A modern movie search engine.</p>;
+}
 ReactDOM.render(<ContentPage />, document.getElementById("root"));
