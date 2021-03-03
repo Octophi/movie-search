@@ -284,6 +284,18 @@ h1 {
   text-align: center;
 }
 
+#error {
+  margin: 8% 20%;
+  font-size: 1em;
+  font-weight: 300;
+  text-align: center;
+}
+
+.pink {
+  color: #f8c7cc;
+  font-weight: 700;
+}
+
 .pagination {
   margin: 30px auto;
   display: flex;
@@ -336,5 +348,4 @@ h1 {
 #logo > span {
   color: #f8c7cc;
   margin: auto;
-  
 }

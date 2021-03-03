@@ -35,14 +35,20 @@ class ContentPage extends React.Component {
     };
   }
 
-  receivedData(apiSearchRequest) {
+  receivedData(apiSearchRequest, isFake = false) {
     fetch(apiSearchRequest)
       .then((response) => response.json())
       .then((data) => {
+        console.log(apiSearchRequest);
         console.log(data);
         this.setState({ searchResults: { data } });
         if (data.total_results > 0) {
           this.setState({ totalPages: data.total_pages });
+        } else {
+          this.setState({ totalPages: 0 });
+        }
+        if (isFake) {
+          this.setState({ searchResults: [], totalPages: 0 });
         }
       })
       .catch((error) => {
@@ -71,9 +77,15 @@ class ContentPage extends React.Component {
       totalPages: 0,
       offset: 0,
     });
+
+    // If our query is actually null, make a fake API call with key "a" (can't make API call with empty query string) and then manually set searchResults and totalPages appropriately
     if (query.trim() === "") {
-      setTimeout(function () {}, 500);
-      this.setState({ searchResults: [], totalPages: 0 });
+      const fakeSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
+        this.state.language
+      }&query=a&page=${this.state.currentPage + 1}&include_adult=${
+        this.state.include_adult
+      }`;
+      this.receivedData(fakeSearchRequest, true);
       return;
     }
     const apiSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
@@ -143,7 +155,7 @@ class ResultsPage extends React.Component {
       searchResults.length === 0 ||
       searchResults.data.total_results === 0
     ) {
-      return <p>Oops, no search results found</p>;
+      return <ErrorMessage searchQuery={searchQuery}></ErrorMessage>;
     } else {
       const movieTabs = searchResults.data.results.map(function (movieData) {
         return (
@@ -232,6 +244,16 @@ function Navbar(props) {
         <span className="thin">findr</span>
       </span>
     </nav>
+  );
+}
+
+function ErrorMessage(props) {
+  return (
+    <p id="error">
+      <span className="pink">Oops!</span> We didn't find any search results for
+      "{props.searchQuery}". Try checking your spelling, or using more general
+      keywords.
+    </p>
   );
 }
 
