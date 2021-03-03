@@ -207,6 +207,13 @@ form {
   margin: 25px;
 }
 
+.movie-display-tile:hover .filler {
+  opacity: 0.1;
+}
+.movie-display-tile:hover .filler h1 {
+  visibility: hidden;
+}
+
 .movie-title {
   font-size: 2em;
   font-weight: 500;
@@ -219,4 +226,22 @@ form {
 
 .score-paragraph {
   margin-bottom: 10px;
+}
+
+.filler {
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255, 0, 0, 0),
+    rgba(255, 0, 0, 1)
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.filler h1 {
+  margin: 0px 10px;
+  text-align: center;
 }

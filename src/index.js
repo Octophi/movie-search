@@ -117,25 +117,47 @@ class ResultsPage extends React.Component {
 class MovieDisplay extends React.Component {
   render() {
     const movieData = this.props.data;
-    const img_path = secure_base_url + size + movieData.poster_path;
+
     const overview = movieData.overview;
     const release_date = movieData.release_date;
     const title = movieData.title;
     const popularity = movieData.popularity;
     const vote_average = movieData.vote_average;
+
+    let imgComponent;
+    if (movieData.poster_path === null) {
+      imgComponent = (
+        <div className="filler">
+          <h1 className="movie-title">{title}</h1>
+        </div>
+      );
+    } else {
+      const img_path = secure_base_url + size + movieData.poster_path;
+      imgComponent = <img src={img_path} alt="Movie Poster"></img>;
+    }
     return (
       <div className="movie-display-tile">
-        <img src={img_path} alt="Movie Poster"></img>
-        <div class="img-description">
-          <h1 class="movie-title">{title}</h1>
-          <p class="score-paragraph">
-            <span class="score">Average Score:</span> {vote_average}
-          </p>
-          <p class="overview">{overview}</p>
-        </div>
+        {imgComponent}
+        <MovieDescription
+          title={title}
+          score={vote_average}
+          overview={overview}
+        ></MovieDescription>
       </div>
     );
   }
+}
+
+function MovieDescription(props) {
+  return (
+    <div className="img-description">
+      <h1 className="movie-title">{props.title}</h1>
+      <p className="score-paragraph">
+        <span className="score">Average Score:</span> {props.score}
+      </p>
+      <p className="overview">{props.overview}</p>
+    </div>
+  );
 }
 
 ReactDOM.render(<ContentPage />, document.getElementById("root"));
