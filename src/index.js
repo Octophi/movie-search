@@ -5,15 +5,27 @@ import "./index.css";
 
 // Basic API Setup
 const apiKey = "4b547eeea89c2c56ed31012705fbf0c6";
-const apiConfigRequest = `https://api.themoviedb.org/3/configuration?api_key=${apiKey}`;
 
 // Querying for basic config info, base_url and size used for finding images
 let secure_base_url, size;
+const apiConfigRequest = `https://api.themoviedb.org/3/configuration?api_key=${apiKey}`;
 fetch(apiConfigRequest)
   .then((response) => response.json())
   .then((data) => {
     secure_base_url = data.images.secure_base_url;
     size = data.images.backdrop_sizes[0];
+  })
+  .catch(console.log);
+
+// Get mapping of genre ids for en-US, store into genreMapping in (id, name) format
+let genreMapping = new Map();
+const apiGenreRequest = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
+fetch(apiGenreRequest)
+  .then((response) => response.json())
+  .then((data) => {
+    data.genres.forEach(function (genrePair) {
+      genreMapping.set(genrePair.id, genrePair.name);
+    });
   })
   .catch(console.log);
 
@@ -78,7 +90,11 @@ class ContentPage extends React.Component {
       offset: 0,
     });
 
-    // If our query is actually null, make a fake API call with key "a" (can't make API call with empty query string) and then manually set searchResults and totalPages appropriately
+    /*
+     If our query is actually null, make a fake API call with key "a" (can't make API call with empty query string) and then manually set 
+     searchResults and totalPages appropriately. This ensures the timing works out and we don't set searchResults and totalPages only to 
+     be overwritten by a previous API call.
+    */
     if (query.trim() === "") {
       const fakeSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
         this.state.language
@@ -196,6 +212,8 @@ class MovieDisplay extends React.Component {
     const overview = movieData.overview;
     const title = movieData.title;
     const vote_average = movieData.vote_average;
+    const genres = movieData.genre_ids.map((id) => genreMapping.get(id));
+    console.log(genres);
 
     let imgComponent;
     if (movieData.poster_path === null) {
@@ -213,6 +231,7 @@ class MovieDisplay extends React.Component {
         {imgComponent}
         <MovieDescription
           title={title}
+          genres={genres}
           score={vote_average}
           overview={overview}
         ></MovieDescription>
@@ -226,8 +245,13 @@ function MovieDescription(props) {
     <div className="img-description">
       <h1 className="movie-title">{props.title}</h1>
       <p className="score-paragraph">
-        <span className="score">Average Score:</span> {props.score}
+        <span className="bold">Average Score:</span> {props.score}
       </p>
+      {props.genres.length > 0 && (
+        <p className="genre">
+          <span className="bold">Genres:</span> {props.genres.join(", ")}
+        </p>
+      )}
       <p className="overview">{props.overview}</p>
     </div>
   );
@@ -251,7 +275,7 @@ function ErrorMessage(props) {
   return (
     <p id="error">
       <span className="pink">Oops!</span> We didn't find any search results for
-      "{props.searchQuery}". Try checking your spelling, or using more general
+      "{props.searchQuery}". Try checking your spelling or using more general
       keywords.
     </p>
   );

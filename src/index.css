@@ -226,6 +226,10 @@ form {
   font-weight: 700;
 }
 
+.genre {
+  margin-bottom: 10px;
+}
+
 .score-paragraph {
   margin-bottom: 10px;
 }
