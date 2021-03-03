@@ -64,7 +64,13 @@ class ContentPage extends React.Component {
   };
 
   handleQueryChange(query) {
-    this.setState({ searchQuery: query });
+    // Reset the page statistics every time you change the query
+    this.setState({
+      searchQuery: query,
+      currentPage: 0,
+      totalPages: 0,
+      offset: 0,
+    });
     if (query.trim() === "") {
       setTimeout(function () {}, 500);
       this.setState({ searchResults: [], totalPages: 0 });
