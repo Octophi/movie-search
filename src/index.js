@@ -21,49 +21,61 @@ class ContentPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleQueryChange = this.handleQueryChange.bind(this);
-    //this.handlePageClick = this.handlePageClick.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
     this.state = {
       searchQuery: "",
       searchResults: [],
-      isEmpty: true,
-      //paginationAttributes: { offset: 0, perPage: 20, currentPage: 0 },
+      // Pagination attributes
+      offset: 0,
+      perPage: 20,
+      currentPage: 0,
+      totalPages: 0,
+      language: "en-US",
+      include_adult: false,
     };
   }
 
-  /*
-  handlePageClick = (e) => {
-    const selectedPage = e.selected;
-    const offset = selectedPage * this.state.perPage;
-  };
-  */
-
-  handleQueryChange(query) {
-    this.setState({ searchQuery: { query } });
-    if (query.trim() === "") {
-      setTimeout(function () {}, 500);
-      this.setState({ isEmpty: true, searchResults: [] });
-      return;
-    }
-    const language = "en-US";
-    const include_adult = false;
-    const page = 1;
-    // Also can include an option for year
-    const apiSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${query}&page=${page}&include_adult=${include_adult}`;
-
+  receivedData(apiSearchRequest) {
     fetch(apiSearchRequest)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ isEmpty: false, searchResults: { data } });
+        console.log(data);
+        this.setState({ searchResults: { data } });
+        if (data.total_results > 0) {
+          this.setState({ totalPages: data.total_pages });
+        }
       })
       .catch((error) => {
         console.error(error);
       });
+  }
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.perPage;
+    this.setState({ currentPage: selectedPage, offset: offset });
+    const apiSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
+      this.state.language
+    }&query=${this.state.searchQuery}&page=${selectedPage + 1}&include_adult=${
+      this.state.include_adult
+    }`;
+    console.log(apiSearchRequest);
+    console.log(selectedPage);
+    this.receivedData(apiSearchRequest);
+  };
 
-    /* Testing Code
-    console.log("Search Query: " + query);
-    console.log("Search Results: ");
-    console.log(this.state.searchResults);
-    */
+  handleQueryChange(query) {
+    this.setState({ searchQuery: query });
+    if (query.trim() === "") {
+      setTimeout(function () {}, 500);
+      this.setState({ searchResults: [], totalPages: 0 });
+      return;
+    }
+    const apiSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
+      this.state.language
+    }&query=${query}&page=${this.state.currentPage + 1}&include_adult=${
+      this.state.include_adult
+    }`;
+    this.receivedData(apiSearchRequest);
   }
   render() {
     return (
@@ -75,8 +87,11 @@ class ContentPage extends React.Component {
         <ResultsPage
           searchQuery={this.state.searchQuery}
           searchResults={this.state.searchResults}
-          isEmpty={this.state.isEmpty}
         ></ResultsPage>
+        <PaginationMenu
+          handlePageClick={this.handlePageClick}
+          pageCount={this.state.totalPages}
+        ></PaginationMenu>
       </div>
     );
   }
@@ -115,8 +130,8 @@ class ResultsPage extends React.Component {
   render() {
     // Pass in the search results from the search bar
     const searchResults = this.props.searchResults;
-    const isEmpty = this.props.isEmpty;
-    if (isEmpty) {
+    const searchQuery = this.props.searchQuery;
+    if (searchQuery === "") {
       return <p></p>;
     } else if (
       searchResults.length === 0 ||
@@ -134,7 +149,28 @@ class ResultsPage extends React.Component {
   }
 }
 
-//class PaginationMenu extends React.Component {}
+class PaginationMenu extends React.Component {
+  render() {
+    if (this.props.pageCount === 0) {
+      return <p></p>;
+    }
+    return (
+      <ReactPaginate
+        previousLabel={"prev"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={this.props.pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={this.props.handlePageClick}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      ></ReactPaginate>
+    );
+  }
+}
 
 class MovieDisplay extends React.Component {
   render() {
