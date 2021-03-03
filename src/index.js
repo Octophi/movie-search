@@ -224,8 +224,12 @@ function MovieDescription(props) {
 function Navbar(props) {
   return (
     <nav className="navbar navbar-light bg-light" id="main-nav">
-      <span className="navbar-brand mb-0 h1">
-        <b>flick</b>findr
+      <span className="navbar-brand">
+        <div id="logo">
+          <span>ff</span>
+        </div>
+        <span className="bold">flick</span>
+        <span className="thin">findr</span>
       </span>
     </nav>
   );
