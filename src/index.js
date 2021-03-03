@@ -79,6 +79,7 @@ class ContentPage extends React.Component {
     console.log(apiSearchRequest);
     console.log(selectedPage);
     this.receivedData(apiSearchRequest);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   handleQueryChange(query) {
