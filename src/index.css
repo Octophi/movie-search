@@ -1,4 +1,6 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* 
+   CSS Reset form, resetting CSS styles
+   http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -135,6 +137,13 @@ table {
 *
 *
 End of CSS Reset file
+*
+*
+*
+*/
+
+/*
+Own styling begins below
 */
 
 html {
@@ -298,6 +307,23 @@ h1 {
   font-weight: 700;
 }
 
+#logo {
+  background-color: white;
+  padding: 5px;
+  border-radius: 10px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin: 0px 5px 0px 0px;
+}
+
+#logo > span {
+  color: #f8c7cc;
+  margin: 2.5px;
+}
+
+/* Pagination styling, mostly borrowed from https://medium.com/how-to-react/create-pagination-in-reactjs-e4326c1b9855 with minor tweaks*/
+
 .pagination {
   margin: 30px auto;
   display: flex;
@@ -335,19 +361,4 @@ h1 {
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
   border-radius: unset;
-}
-
-#logo {
-  background-color: white;
-  padding: 5px;
-  border-radius: 10px;
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  margin: 0px 5px 0px 0px;
-}
-
-#logo > span {
-  color: #f8c7cc;
-  margin: 2.5px;
 }

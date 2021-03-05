@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
 import "./index.css";
 
-// Basic API Setup
+// Grab API key, store it for queries
 const apiKey = "4b547eeea89c2c56ed31012705fbf0c6";
 
-// Querying for basic config info, base_url and size used for finding images
+// Querying for basic API config info, base_url, and size used for finding images
 let secure_base_url, size;
 const apiConfigRequest = `https://api.themoviedb.org/3/configuration?api_key=${apiKey}`;
 fetch(apiConfigRequest)
@@ -29,6 +29,7 @@ fetch(apiGenreRequest)
   })
   .catch(console.log);
 
+// ContentPage component is the entire webpage
 class ContentPage extends React.Component {
   constructor(props) {
     super(props);
@@ -37,22 +38,25 @@ class ContentPage extends React.Component {
     this.state = {
       searchQuery: "",
       searchResults: [],
+      language: "en-US",
+      include_adult: false,
       // Pagination attributes
       offset: 0,
       perPage: 20,
       currentPage: 0,
       totalPages: 0,
-      language: "en-US",
-      include_adult: false,
     };
   }
 
+  /*
+  Called whenever a new API request is to be made
+  isFake variable tracks whether this API request should actually be made 
+  (occasionally we give an API request without actually wanting the data, see if block under handleQueryChange)
+  */
   receivedData(apiSearchRequest, isFake = false) {
     fetch(apiSearchRequest)
       .then((response) => response.json())
       .then((data) => {
-        console.log(apiSearchRequest);
-        console.log(data);
         this.setState({ searchResults: { data } });
         if (data.total_results > 0) {
           this.setState({ totalPages: data.total_pages });
@@ -67,6 +71,8 @@ class ContentPage extends React.Component {
         console.error(error);
       });
   }
+
+  // Handles changing pages using pagination menu
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
@@ -76,12 +82,11 @@ class ContentPage extends React.Component {
     }&query=${this.state.searchQuery}&page=${selectedPage + 1}&include_adult=${
       this.state.include_adult
     }`;
-    console.log(apiSearchRequest);
-    console.log(selectedPage);
     this.receivedData(apiSearchRequest);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Handles changes in the searchbar content
   handleQueryChange(query) {
     // Reset the page statistics every time you change the query
     this.setState({
@@ -93,8 +98,8 @@ class ContentPage extends React.Component {
 
     /*
      If our query is actually null, make a fake API call with key "a" (can't make API call with empty query string) and then manually set 
-     searchResults and totalPages appropriately. This ensures the timing works out and we don't set searchResults and totalPages only to 
-     be overwritten by a previous API call.
+     searchResults and totalPages appropriately in receivedData. This ensures the timing works out and we don't set searchResults and 
+     totalPages only to be overwritten by a previous API call.
     */
     if (query.trim() === "") {
       const fakeSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
@@ -116,7 +121,6 @@ class ContentPage extends React.Component {
     return (
       <div>
         <Navbar></Navbar>
-        <MainHeader></MainHeader>
         <MainDescription></MainDescription>
         <SearchBar onChange={this.handleQueryChange}></SearchBar>
         <ResultsPage
@@ -131,6 +135,8 @@ class ContentPage extends React.Component {
     );
   }
 }
+
+// Component for the main searchbar in the application
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -138,9 +144,11 @@ class SearchBar extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { searchResults: [] };
   }
+  // Lift state up to ContentPage whenever we detect a change
   handleChange(e) {
     this.props.onChange(e.target.value);
   }
+  // Ignore submissions of the form
   handleSubmit(e) {
     e.preventDefault();
   }
@@ -161,19 +169,22 @@ class SearchBar extends React.Component {
   }
 }
 
+// ResultsPage displays the results corresponding to the query in SearchBar
 class ResultsPage extends React.Component {
   render() {
-    // Pass in the search results from the search bar
     const searchResults = this.props.searchResults;
     const searchQuery = this.props.searchQuery;
+    // Display nothing if the searchQuery was empty...
     if (searchQuery === "") {
       return <p></p>;
     } else if (
       searchResults.length === 0 ||
       searchResults.data.total_results === 0
     ) {
+      // ...or a "not found" message if there were no results...
       return <ErrorMessage searchQuery={searchQuery}></ErrorMessage>;
     } else {
+      // ...or else just the results, displayed as MovieDisplay elements
       const movieTabs = searchResults.data.results.map(function (movieData) {
         return (
           <MovieDisplay data={movieData} key={movieData.id}></MovieDisplay>
@@ -184,6 +195,7 @@ class ResultsPage extends React.Component {
   }
 }
 
+// Menu with buttons for different pages of results, adapted from react-paginate
 class PaginationMenu extends React.Component {
   render() {
     if (this.props.pageCount === 0) {
@@ -207,6 +219,7 @@ class PaginationMenu extends React.Component {
   }
 }
 
+// Display component for movie information, has poster information, with additional text information on hover
 class MovieDisplay extends React.Component {
   render() {
     const movieData = this.props.data;
@@ -214,8 +227,8 @@ class MovieDisplay extends React.Component {
     const title = movieData.title;
     const vote_average = movieData.vote_average;
     const genres = movieData.genre_ids.map((id) => genreMapping.get(id));
-    console.log(genres);
 
+    // If there is no poster_path, use a default background div with color gradient, defined in CSS...
     let imgComponent;
     if (movieData.poster_path === null) {
       imgComponent = (
@@ -224,6 +237,7 @@ class MovieDisplay extends React.Component {
         </div>
       );
     } else {
+      // ...else grab image
       const img_path = secure_base_url + size + movieData.poster_path;
       imgComponent = <img src={img_path} alt="Movie Poster"></img>;
     }
@@ -241,6 +255,7 @@ class MovieDisplay extends React.Component {
   }
 }
 
+// Returns text description of movie with information on title, genres, score, and plot overview
 function MovieDescription(props) {
   return (
     <div className="img-description">
@@ -258,6 +273,7 @@ function MovieDescription(props) {
   );
 }
 
+// Basic navbar with logo, no additional links to include
 function Navbar(props) {
   return (
     <nav className="navbar navbar-light bg-light" id="main-nav">
@@ -272,6 +288,7 @@ function Navbar(props) {
   );
 }
 
+// Displays error message when no results are found
 function ErrorMessage(props) {
   return (
     <p id="error">
@@ -282,17 +299,17 @@ function ErrorMessage(props) {
   );
 }
 
-function MainHeader(props) {
-  return <p id="main-header">A modern movie search engine.</p>;
-}
-
+// Main text describing usage of application
 function MainDescription(props) {
   return (
-    <p id="main-description">
-      Ever wanted a single platform for finding movies by name? Curious how many
-      movies there are with zombie in the title? Type into the searchbar and get
-      searching.
-    </p>
+    <div>
+      <p id="main-header">A modern movie search engine.</p>
+      <p id="main-description">
+        Ever wanted a single platform for finding movies by name? Curious how
+        many movies there are with zombie in the title? Type into the searchbar
+        and get searching.
+      </p>
+    </div>
   );
 }
 
