@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
+import SearchBar from "./components/SearchBar";
+import Navbar from "./components/Navbar";
+import MainDescription from "./components/MainDescription";
+import ErrorMessage from "./components/ErrorMessage";
 import { config } from "../src/config.js";
 import "./index.css";
 
@@ -137,39 +141,6 @@ class ContentPage extends React.Component {
   }
 }
 
-// Component for the main searchbar in the application
-class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { searchResults: [] };
-  }
-  // Lift state up to ContentPage whenever we detect a change
-  handleChange(e) {
-    this.props.onChange(e.target.value);
-  }
-  // Ignore submissions of the form
-  handleSubmit(e) {
-    e.preventDefault();
-  }
-  render() {
-    return (
-      <div id="searchbar-container">
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="searchbar"></label>
-          <input
-            type="text"
-            id="main-searchbar"
-            placeholder="I'm looking for a movie about..."
-            onChange={this.handleChange}
-          ></input>
-        </form>
-      </div>
-    );
-  }
-}
-
 // ResultsPage displays the results corresponding to the query in SearchBar
 class ResultsPage extends React.Component {
   render() {
@@ -270,46 +241,6 @@ function MovieDescription(props) {
         </p>
       )}
       <p className="movie-attribute">{props.overview}</p>
-    </div>
-  );
-}
-
-// Basic navbar with logo, no additional links to include
-function Navbar(props) {
-  return (
-    <nav className="navbar navbar-light bg-light" id="main-nav">
-      <span className="navbar-brand">
-        <div id="logo">
-          <span>ff</span>
-        </div>
-        <span className="bold">flick</span>
-        <span className="thin">findr</span>
-      </span>
-    </nav>
-  );
-}
-
-// Displays error message when no results are found
-function ErrorMessage(props) {
-  return (
-    <p id="error">
-      <span className="pink">Oops!</span> We didn't find any search results for
-      "{props.searchQuery}". Try checking your spelling or using more general
-      keywords.
-    </p>
-  );
-}
-
-// Main text describing usage of application
-function MainDescription(props) {
-  return (
-    <div>
-      <p id="main-header">A modern movie search engine.</p>
-      <p id="main-description">
-        Ever wanted a single platform for finding movies by name? Curious how
-        many movies there are with zombie in the title? Type into the searchbar
-        and get searching.
-      </p>
     </div>
   );
 }
