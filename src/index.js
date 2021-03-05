@@ -15,7 +15,7 @@ const apiKey = config.apiKey;
 */
 
 /* Comment out following line and uncomment above portion if running locally */
-const apiKey = process.env.apiKey;
+const apiKey = REACT_APP_APIKEY;
 
 // App component is the entire webpage
 class App extends React.Component {
