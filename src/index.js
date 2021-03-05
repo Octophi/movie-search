@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
+import { config } from "../src/config.js";
 import "./index.css";
 
 // Grab API key, store it for queries
-const apiKey = "4b547eeea89c2c56ed31012705fbf0c6";
+const apiKey = config.apiKey;
 
 // Querying for basic API config info, base_url, and size used for finding images
 let secure_base_url, size;
