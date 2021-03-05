@@ -136,7 +136,6 @@ class App extends React.Component {
     this.receivedData(apiSearchRequest);
   }
   render() {
-    console.log(this.state);
     return (
       <div>
         <Navbar></Navbar>
