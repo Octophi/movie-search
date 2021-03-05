@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import MainDescription from "./components/MainDescription";
 import PaginationMenu from "./components/PaginationMenu";
 import ResultsPage from "./components/ResultsPage";
-import { config } from "../src/config.js";
+import { config } from "./config.js";
 import "./index.css";
 
 // Grab API key, store it for queries

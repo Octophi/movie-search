@@ -1,6 +1,6 @@
 import React from "react";
-import MovieDisplay from "../components/MovieDisplay";
-import ErrorMessage from "../components/ErrorMessage";
+import MovieDisplay from "./MovieDisplay";
+import ErrorMessage from "./ErrorMessage";
 
 // ResultsPage displays the results corresponding to the query in SearchBar
 export default class ResultsPage extends React.Component {
