@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ReactPaginate from "react-paginate";
 import SearchBar from "./components/SearchBar";
 import Navbar from "./components/Navbar";
 import MainDescription from "./components/MainDescription";
 import ErrorMessage from "./components/ErrorMessage";
+import PaginationMenu from "./components/PaginationMenu";
 import { config } from "../src/config.js";
 import "./index.css";
 
@@ -179,30 +179,6 @@ class ResultsPage extends React.Component {
       });
       return <div id="results-page">{movieTabs}</div>;
     }
-  }
-}
-
-// Menu with buttons for different pages of results, adapted from react-paginate
-class PaginationMenu extends React.Component {
-  render() {
-    if (this.props.pageCount === 0 || this.props.searchQuery === "") {
-      return <p></p>;
-    }
-    return (
-      <ReactPaginate
-        previousLabel={"prev"}
-        nextLabel={"next"}
-        breakLabel={"..."}
-        breakClassName={"break-me"}
-        pageCount={this.props.pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={this.props.handlePageClick}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
-      ></ReactPaginate>
-    );
   }
 }
 
