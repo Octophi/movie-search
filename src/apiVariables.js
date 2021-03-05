@@ -6,7 +6,7 @@ const apiKey = config.apiKey;
 */
 
 /* Comment out following line and uncomment above portion if running locally */
-const apiKey = REACT_APP_APIKEY;
+const apiKey = process.env.REACT_APP_APIKEY;
 
 // Querying for basic API config info, base_url, and size used for finding images
 let secure_base_url, size;
