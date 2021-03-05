@@ -5,11 +5,17 @@ import Navbar from "./components/Navbar";
 import MainDescription from "./components/MainDescription";
 import PaginationMenu from "./components/PaginationMenu";
 import ResultsPage from "./components/ResultsPage";
-import { config } from "./config.js";
 import "./index.css";
+
+/* Uncomment this portion and comment out following portion if running locally
+import config from "./config.json";
 
 // Grab API key, store it for queries
 const apiKey = config.apiKey;
+*/
+
+/* Comment out following line and uncomment above portion if running locally */
+const apiKey = process.env.apiKey;
 
 // App component is the entire webpage
 class App extends React.Component {

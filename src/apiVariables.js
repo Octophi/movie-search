@@ -1,6 +1,12 @@
-import { config } from "./config.js";
+/* Uncomment this portion and comment out following portion if running locally
+import config from "./config.json";
 
+// Grab API key, store it for queries
 const apiKey = config.apiKey;
+*/
+
+/* Comment out following line and uncomment above portion if running locally */
+const apiKey = process.env.apiKey;
 
 // Querying for basic API config info, base_url, and size used for finding images
 let secure_base_url, size;
