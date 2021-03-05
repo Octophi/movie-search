@@ -34,8 +34,8 @@ fetch(apiGenreRequest)
   })
   .catch(console.log);
 
-// ContentPage component is the entire webpage
-class ContentPage extends React.Component {
+// App component is the entire webpage
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -82,6 +82,19 @@ class ContentPage extends React.Component {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
     this.setState({ currentPage: selectedPage, offset: offset });
+
+    // Check if the query is empty to avoid making an invalid GET request
+    if (this.state.searchQuery.trim() === "") {
+      const fakeSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
+        this.state.language
+      }&query=a&page=${selectedPage + 1}&include_adult=${
+        this.state.include_adult
+      }`;
+      this.receivedData(fakeSearchRequest, true);
+      return;
+    }
+
+    // If query nonempty, make appropriate API call
     const apiSearchRequest = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${
       this.state.language
     }&query=${this.state.searchQuery}&page=${selectedPage + 1}&include_adult=${
@@ -123,6 +136,7 @@ class ContentPage extends React.Component {
     this.receivedData(apiSearchRequest);
   }
   render() {
+    console.log(this.state);
     return (
       <div>
         <Navbar></Navbar>
@@ -133,6 +147,7 @@ class ContentPage extends React.Component {
           searchResults={this.state.searchResults}
         ></ResultsPage>
         <PaginationMenu
+          searchQuery={this.state.searchQuery}
           handlePageClick={this.handlePageClick}
           pageCount={this.state.totalPages}
         ></PaginationMenu>
@@ -170,7 +185,7 @@ class ResultsPage extends React.Component {
 // Menu with buttons for different pages of results, adapted from react-paginate
 class PaginationMenu extends React.Component {
   render() {
-    if (this.props.pageCount === 0) {
+    if (this.props.pageCount === 0 || this.props.searchQuery === "") {
       return <p></p>;
     }
     return (
@@ -245,4 +260,4 @@ function MovieDescription(props) {
   );
 }
 
-ReactDOM.render(<ContentPage />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
