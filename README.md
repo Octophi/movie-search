@@ -2,9 +2,15 @@
 
 flickfindr is a movie search engine which allows for users to type in search terms and receive corresponding movie results, which are displayed with relevant information such as the poster image (if it exists), title, ratings, genre, and description. It accomplishes this by interfacing with the "The Movie Database (TMDb)" API, sending requests to the API and displaying select movie information in a formatted manner, as displayed below in screenshots. 
 
+The website is currently hosted at https://flickfindr.netlify.app/, so check it out and play around with it!
+
 ## Technologies Used
 
 HTML, CSS, React JS
+
+## Setup
+
+To run this code locally on your own machine, you will need to provide a config.json file with an object containing key "apiKey" and value your TMDb API key. You will also need to uncomment/comment out the appropriate sections indicated at the beginning of index.js and apiVariables.js - the version of the code hosted here on Github obtains apiKey from preset environment variables in Netlify, but to run the code locally, you will want to provide apiKey from your own config.json file.
 
 ## Screenshots
 
