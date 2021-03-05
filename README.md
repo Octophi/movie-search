@@ -10,7 +10,7 @@ HTML, CSS, React JS
 
 ## Setup
 
-To run this code locally on your own machine, you will need to provide a config.json file with an object containing key "apiKey" and value your TMDb API key. You will also need to uncomment/comment out the appropriate sections indicated at the beginning of index.js and apiVariables.js - the version of the code hosted here on Github obtains apiKey from preset environment variables in Netlify, but to run the code locally, you will want to provide apiKey from your own config.json file.
+To run this code locally on your own machine, you will need to provide a config.json file inside the src directory, with an object containing key "apiKey" and value your TMDb API key. You will also need to uncomment/comment out the appropriate sections indicated at the beginning of index.js and apiVariables.js - the version of the code hosted here on Github obtains apiKey from preset environment variables in Netlify, but to run the code locally, you will want to provide apiKey from your own config.json file.
 
 ## Screenshots
 
