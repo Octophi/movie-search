@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# flickfindr - a movie search engine
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+flickfindr is a movie search engine which allows for users to type in search terms and receive corresponding movie results, which are displayed with relevant information such as the poster image (if it exists), title, ratings, genre, and description. It accomplishes this by interfacing with the "The Movie Database (TMDb)" API, sending requests to the API and displaying select movie information in a formatted manner, as displayed below in screenshots. 
 
-## Available Scripts
+## Technologies Used
 
-In the project directory, you can run:
+HTML, CSS, React JS
 
-### `npm start`
+## Screenshots
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+On loading, the following screen is displayed: 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![flickfindr home page](readme-imgs/flickfindr-home-page.PNG)
 
-### `npm test`
+One can then enter search terms into the search bar, which dynamically updates the content displayed to fit search results corresponding to given input terms, as shown below:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![flickfindr search results](readme-imgs/flickfindr-search-results.PNG)
 
-### `npm run build`
+The movie displays consist of a poster image (or a default image if there is no poster image available) and a set of text descriptions regarding the movie which are displayed when the user hovers over the given poster image, as displayed below: 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![flickfindr search results](readme-imgs/flickfindr-search-results-hover.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Future Directions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+There are a number of potential features to add in future versions of this project. The TMDb API provides many additional possible parameters for its API calls, including whether to include adult content and different language/region options for movie results. One potential next step would be to build an additional form component which allows users to toggle these settings - currently, searches do not include adult content and only search for results in English.
 
-### `npm run eject`
+Another potential future step would be to add other related content to the MovieDisplay content, for example, potentially displaying related clips (eg trailers) from movies where applicable. These could be obtained from the TMDb API and an additional button could be attached to the MovieDisplay component which would allow for the display of such videos, where applicable.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Credits
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). React-paginate was used to create the pagination feature, and the styling for the pagination menu was borrowed from https://medium.com/how-to-react/create-pagination-in-reactjs-e4326c1b9855. Bootstrap 4 styling was used for styling the navbar.
