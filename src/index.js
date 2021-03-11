@@ -15,6 +15,8 @@ const apiKey = config.apiKey;
 */
 
 /* Comment out following line and uncomment above portion if running locally */
+const dotenv = require("dotenv");
+dotenv.config();
 const apiKey = process.env.REACT_APP_APIKEY;
 
 // App component is the entire webpage

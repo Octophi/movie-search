@@ -2,6 +2,7 @@
 
 # config
 /src/config.json
+/src/.env
 
 # dependencies
 /node_modules
