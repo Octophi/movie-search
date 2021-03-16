@@ -5,8 +5,6 @@ export default class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { searchResults: [] };
   }
   // Lift state up to App whenever we detect a change
   handleChange(e) {

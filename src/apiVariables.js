@@ -1,4 +1,5 @@
 /* Uncomment this portion and comment out following portion if running locally
+
 import config from "./config.json";
 
 // Grab API key, store it for queries
