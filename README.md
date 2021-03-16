@@ -2,7 +2,7 @@
 
 flickfindr is a movie search engine which allows for users to type in search terms and receive corresponding movie results, which are displayed with relevant information such as the poster image (if it exists), title, ratings, genre, and description. It accomplishes this by interfacing with the "The Movie Database (TMDb)" API, sending requests to the API and displaying select movie information in a formatted manner, as displayed below in screenshots. 
 
-The website is currently hosted at https://flickfindr.netlify.app/, so check it out and play around with it!
+The website is currently hosted at https://flickfindr.netlify.app/ using Netlify as well as https://main.d25ogouu5f6vzn.amplifyapp.com/ using AWS Amplify, so check it out and play around with it!
 
 ## Technologies Used
 
